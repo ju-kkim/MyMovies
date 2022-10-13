@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext", "ES2015.Promise"],
+    "allowJs": true,
+    "jsx": "react",
+    "baseUrl": "./",
+    "sourceMap": true,
+    "isolatedModules": true,
+    "removeComments": true,
+    "pretty": true,
+    "moduleResolution": "Node",
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "downlevelIteration": true,
+    "noImplicitThis": true,
+    "skipLibCheck": true,
+    "declaration": false
+  },
+  "include": ["src"],
+  "exclude": ["node_modules/*"]
+}
