@@ -1,7 +1,11 @@
 import { createGlobalStyle } from 'styled-components';
 import COLOR from './color';
+import FONTFACE from '@/assets/font';
+import { typography } from './mixins';
 
 const GlobalStyle = createGlobalStyle`
+  ${FONTFACE}
+
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,
@@ -27,11 +31,11 @@ const GlobalStyle = createGlobalStyle`
     display: block;
   }
   html {
-    font: normal 400 10px/1 sans-serif;
+    font: normal 400 10px/1 'Noto sans', sans-serif;
   }
   body {
-    font-size: 1.6rem;
-    line-height: 1;
+    ${typography({ size: 'medium', weight: 'regular' })}
+    line-height: 1.4;
     color: ${COLOR.WHITE};
     background: ${COLOR.BLACK};
   }

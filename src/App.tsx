@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function App({ textColor }: { textColor: string }) {
-  return <h1 style={{ color: textColor }}>React - TypeScript</h1>;
+export default function App() {
+  return <h1>React - TypeScript</h1>;
 }
