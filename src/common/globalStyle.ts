@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import COLOR from './color';
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -31,6 +32,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-size: 1.6rem;
     line-height: 1;
+    color: ${COLOR.WHITE};
+    background: ${COLOR.BLACK};
   }
   ol, ul {
     list-style: none;
