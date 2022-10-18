@@ -8,7 +8,11 @@ module.exports = {
     filename: '[name].js',
   },
   resolve: {
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
   },
   module: {
     rules: [
