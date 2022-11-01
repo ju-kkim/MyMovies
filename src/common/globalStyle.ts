@@ -30,11 +30,12 @@ const GlobalStyle = createGlobalStyle`
   footer, header, hgroup, menu, nav, section {
     display: block;
   }
+  * {box-sizing: border-box}
   html {
     font: normal 400 10px/1 'Noto sans', sans-serif;
   }
   body {
-    ${typography({ size: 'medium', weight: 'regular' })}
+    ${typography({ size: 'medium' })}
     line-height: 1.4;
     color: ${COLOR.WHITE};
     background: ${COLOR.BLACK};
@@ -60,18 +61,39 @@ const GlobalStyle = createGlobalStyle`
     background: none;
     border: none;
     font: inherit;
+    color: inherit;
     cursor: pointer;
   }
   input, textarea {
     margin: 0;
     padding: 0;
+    border: none;
+    background: none;
+  }
+  input:focus, 
+  textarea:focus {
+    outline: none;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: ${COLOR.WHITE};
+    opacity: 1; /* Firefox */
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: ${COLOR.WHITE};
+  }
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: ${COLOR.WHITE};
   }
   a {
     text-decoration: none;
     font: inherit;
+    color: inherit;
   }
   img {
     max-width: 100%;
+  }
+  svg {
+    display: block;
   }
 `;
 
