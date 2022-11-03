@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
-import Header from '@/layout/Header';
+import Header from '@/layout/Header/index';
 import Home from '@/page/Home';
 import Login from '@/page/Login';
 import NotFound from '@/page/NotFound';
