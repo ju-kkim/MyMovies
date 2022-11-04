@@ -1,12 +1,16 @@
 import React from 'react';
 import GlobalStyle from '../src/common/globalStyle';
+import { RecoilRoot } from 'recoil';
+import { BrowserRouter } from 'react-router-dom';
 
 export const decorators = [
   (Story) => (
-    <>
+    <RecoilRoot>
       <GlobalStyle />
-      <Story />
-    </>
+      <BrowserRouter>
+        <Story />
+      </BrowserRouter>
+    </RecoilRoot>
   ),
 ];
 
