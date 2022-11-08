@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { removeCookie } from '@/utils/cookie';
+import { useRecoilValueLoadable } from 'recoil';
 import { throttle } from '@/utils/utils';
 import { userStore } from '@/store/user';
 import Logo from '@/assets/svg/logo.svg';
@@ -10,32 +9,30 @@ import { flexBox, position, typography } from '@/common/mixins';
 import MENU from '@/constants/menu';
 import COLOR from '@/common/color';
 import SearchFrom from '@/components/SearchForm';
+import { useSessionId } from '@/hook/useSessionId';
+import { useClickOutside } from '@/hook/useClickOutside';
 
 export default function Header() {
-  const user = useRecoilValue(userStore);
-  const resetUser = useResetRecoilState(userStore);
   const [isShowUserMenu, setIsShowUserMenu] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const userBox = useRef<HTMLDivElement>(null);
+  const { removeSessionId } = useSessionId();
+  const user = useRecoilValueLoadable(userStore);
+  const userContents = user.contents;
 
   const headerBG = 'linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(20, 20, 20, 0) 100%)';
   const headerStickyBG = COLOR.BLACK;
   const bgColor = isSticky ? headerStickyBG : headerBG;
 
+  useClickOutside({ ref: userBox, callback: () => setIsShowUserMenu(false) });
+
   function onLogOut() {
-    resetUser();
-    removeCookie('sessionId');
+    removeSessionId();
     setIsShowUserMenu(false);
   }
 
   function toggleUserMenu() {
     setIsShowUserMenu(!isShowUserMenu);
-  }
-
-  function clickOutsideUserBox(e: MouseEvent) {
-    if (userBox.current && !userBox.current.contains(e.target as Node)) {
-      setIsShowUserMenu(false);
-    }
   }
 
   function changeBgColor() {
@@ -52,13 +49,6 @@ export default function Header() {
       window.removeEventListener('scroll', throttle(changeBgColor, 300));
     };
   }, []);
-
-  useEffect(() => {
-    document.addEventListener('mousedown', clickOutsideUserBox);
-    return () => {
-      document.removeEventListener('mousedown', clickOutsideUserBox);
-    };
-  }, [userBox]);
 
   return (
     <HeaderWrap style={{ background: bgColor }}>
@@ -77,15 +67,15 @@ export default function Header() {
         </Left>
         <Right>
           <SearchFrom />
-          {user.isLogin ? (
+          {user.state === 'hasValue' && userContents.isLogin ? (
             <UserBox ref={userBox}>
               <UserId type="button" onClick={toggleUserMenu}>
-                {user.username}님
+                {userContents.username}님
               </UserId>
               {isShowUserMenu && (
                 <UserMenu>
                   <li>
-                    //TODO: 마이페이지 연결
+                    {/* //TODO 마이페이지 열결 */}
                     <Link to="/">MyPage</Link>
                   </li>
                   <li>
@@ -106,7 +96,8 @@ export default function Header() {
 }
 
 const HeaderWrap = styled.header`
-  ${position({ type: 'sticky', top: '0' })}
+  ${position({ type: 'fixed', top: '0', left: '0' })}
+  width: 100%;
 `;
 
 const FlexWrap = styled.div`
