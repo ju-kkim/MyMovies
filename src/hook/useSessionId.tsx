@@ -8,7 +8,7 @@ export function useSessionId() {
   const setSessionIdStore = useSetRecoilState(sessionIdStore);
 
   useEffect(() => {
-    getCookie({ name: SESSION_ID });
+    getSessionId();
   }, []);
 
   function getSessionId() {
