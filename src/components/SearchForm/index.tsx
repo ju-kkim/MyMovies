@@ -1,6 +1,7 @@
 import COLOR from '@/common/color';
 import { flexBox, typography } from '@/common/mixins';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useClickOutside } from '@/hook/useClickOutside';
 import styled, { keyframes } from 'styled-components';
 import SearchBtn from './SearchBtn';
 
@@ -8,18 +9,7 @@ export default function SearchFrom() {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const SearchWrapper = useRef<HTMLDivElement>(null);
 
-  function clickOutsideSearchWrap(e: MouseEvent) {
-    if (SearchWrapper.current && !SearchWrapper.current.contains(e.target as Node)) {
-      setIsSearchMode(false);
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener('mousedown', clickOutsideSearchWrap);
-    return () => {
-      document.removeEventListener('mousedown', clickOutsideSearchWrap);
-    };
-  }, [SearchWrapper]);
+  useClickOutside({ ref: SearchWrapper, callback: () => setIsSearchMode(false) });
 
   return (
     <SearchWrap ref={SearchWrapper}>
