@@ -42,7 +42,7 @@ export default function Video({
   };
 
   return (
-    <VideoBox>
+    <VideoBox isMainvisual={isMainvisual}>
       {!isControls && (
         <IconButton
           icon={isMute ? 'mute' : 'sound'}
@@ -56,10 +56,11 @@ export default function Video({
   );
 }
 
-const VideoBox = styled.div`
+const VideoBox = styled.div<{ isMainvisual: boolean }>`
   ${position({ type: 'relative' })}
   width: 100%;
-  padding-top: 56.25vw;
+  ${({ isMainvisual }) => (isMainvisual ? 'padding-top: 56.25vw;' : 'padding-top: 56.25%;')}
+
   overflow: hidden;
   background: no-repeat center / cover;
 `;
