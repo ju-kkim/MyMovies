@@ -63,6 +63,10 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
     color: inherit;
     cursor: pointer;
+
+  &:disabled{
+      cursor: default;
+    }
   }
   input, textarea {
     margin: 0;

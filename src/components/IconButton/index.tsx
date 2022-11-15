@@ -47,7 +47,7 @@ const Button = styled.button<{ text: string | undefined; buttonStyle: string }>`
   opacity: 0.7;
   ${({ buttonStyle }) => buttonStyle && buttonStyle}
 
-  &:hover {
+  &:not(:disabled):hover {
     opacity: 1;
   }
 `;
