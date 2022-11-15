@@ -19,7 +19,7 @@ export function useAuth() {
       const requestBody = { request_token };
       const { session_id } = await myFetch({
         method: 'POST',
-        path: `authentication/session/new${process.env.REACT_APP_API_KEY}`,
+        path: `authentication/session/new`,
         requestBody,
       });
       setSessionId({ value: session_id, options: { path: '/', secure: true } });
@@ -36,7 +36,7 @@ export function useAuth() {
 
 async function createToken() {
   const { request_token } = await myFetch({
-    path: `authentication/token/new${process.env.REACT_APP_API_KEY}`,
+    path: `authentication/token/new`,
   });
 
   return request_token;
@@ -54,7 +54,7 @@ async function validateLogin({
   const requestBody = { username, password, request_token: token };
   const { request_token } = await myFetch({
     method: 'POST',
-    path: `authentication/token/validate_with_login${process.env.REACT_APP_API_KEY}`,
+    path: `authentication/token/validate_with_login`,
     requestBody,
   });
 

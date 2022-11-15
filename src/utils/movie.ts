@@ -1,8 +1,13 @@
+import { QUERY } from '@/constants/query';
 import { myFetch } from './fetch';
 
 export async function getMovieDetail(id: string) {
   const movie = await myFetch({
-    path: `movie/${id}${process.env.REACT_APP_API_KEY}&language=ko&append_to_response=videos,images&include_image_language=ko,null`,
+    path: `movie/${id}`,
+    querys: [
+      { query: 'language', value: QUERY.language },
+      { query: 'append_to_response', value: `videos,images&include_image_language=ko,null` },
+    ],
   });
 
   return movie;

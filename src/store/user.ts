@@ -16,7 +16,8 @@ export const userStore = selector<useStore>({
     if (!session_id) return defaultUserStore;
 
     const account = await myFetch({
-      path: `account${process.env.REACT_APP_API_KEY}&session_id=${session_id}`,
+      path: `account`,
+      querys: [{ query: 'session_id', value: session_id }],
     });
     const { id, username } = account;
     return {

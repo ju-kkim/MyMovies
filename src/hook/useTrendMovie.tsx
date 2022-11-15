@@ -10,9 +10,7 @@ export function useTrendMovie() {
   }, []);
 
   async function getTrendMovie() {
-    const trendList = await myFetch({
-      path: `trending/movie/day${process.env.REACT_APP_API_KEY}&language=ko`,
-    });
+    const trendList = await myFetch({ path: `trending/movie/day` });
     const { id } = trendList.results[0];
     const { title, overview, backdrop_path, videos, images } = await getMovieDetail(id);
     const mainVideo = findVideo(videos.results);
