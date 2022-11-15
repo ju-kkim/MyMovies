@@ -98,6 +98,8 @@ export default function Header() {
 const HeaderWrap = styled.header`
   ${position({ type: 'fixed', top: '0', left: '0' })}
   width: 100%;
+  z-index: 100;
+  transition: 0.3s;
 `;
 
 const FlexWrap = styled.div`
