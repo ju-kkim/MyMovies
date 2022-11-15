@@ -1,6 +1,6 @@
 export const IMAGE_SIZE = {
   backdrop: {
-    big: 'original',
+    big: 'w1280',
     normal: 'w780',
     small: 'w300',
   },
