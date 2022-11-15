@@ -17,4 +17,6 @@ video.args = {
   isMainvisual: true,
   isAutoPlay: true,
   isControls: false,
+  backdropImage: '/lLsJRHjwHUdg8VoJsgcJLnewRxN.jpg',
+  title: '20세기 소녀',
 };

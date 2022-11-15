@@ -3,14 +3,18 @@ import { position } from '@/common/mixins';
 import styled from 'styled-components';
 import IconButton from '../IconButton';
 import YouTube, { YouTubeProps } from 'react-youtube';
+import Image from '../Image';
 
 export default function Video({
   videoKey,
   isMainvisual = false,
   isAutoPlay = true,
   isControls = false,
+  backdropImage,
+  title,
 }: Video) {
   const [isMute, setIsMute] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
   const videoRef = useRef<YouTube | null>(null);
 
   const volumeIconSize = isMainvisual ? '50px' : '28px';
@@ -38,11 +42,12 @@ export default function Video({
       autoplay: isAutoPlay ? 1 : 0,
       controls: isControls ? 1 : 0,
       rel: 0,
+      mute: 1,
     },
   };
 
-  return (
-    <VideoBox isMainvisual={isMainvisual}>
+  const Video = (
+    <>
       {!isControls && (
         <IconButton
           icon={isMute ? 'mute' : 'sound'}
@@ -51,18 +56,30 @@ export default function Video({
           buttonStyle={volumeButonStyle}
         />
       )}
-      <YoutubeVideo videoId={videoKey} ref={videoRef} opts={opts} isControls={isControls} />
-    </VideoBox>
+      <YoutubeVideo
+        videoId={videoKey}
+        ref={videoRef}
+        opts={opts}
+        isControls={isControls}
+        onEnd={() => setIsEnd(true)}
+      />
+    </>
   );
+
+  const AfterImage = backdropImage ? (
+    <Image type="backdrop" size="big" path={backdropImage} alt={title} css={afterImage} />
+  ) : (
+    <Thumbnail src={`https://img.youtube.com/vi/${videoKey}/maxresdefault.jpg`} alt={title} />
+  );
+
+  return <VideoBox isMainvisual={isMainvisual}>{isEnd ? AfterImage : Video}</VideoBox>;
 }
 
 const VideoBox = styled.div<{ isMainvisual: boolean }>`
   ${position({ type: 'relative' })}
   width: 100%;
   ${({ isMainvisual }) => (isMainvisual ? 'padding-top: 56.25vw;' : 'padding-top: 56.25%;')}
-
   overflow: hidden;
-  background: no-repeat center / cover;
 `;
 
 const YoutubeVideo = styled(YouTube)<{ isControls: boolean }>`
@@ -72,8 +89,20 @@ const YoutubeVideo = styled(YouTube)<{ isControls: boolean }>`
   ${({ isControls }) => !isControls && `pointer-events: none;`}
 `;
 
+const afterImage = `
+  ${position({ type: 'absolute', top: '50%', left: '0%' })}
+  transform: translateY(-50%);
+  width: 100%;
+`;
+
+const Thumbnail = styled.img`
+  ${afterImage}
+`;
+
 type Video = {
   videoKey: string;
+  title: string;
+  backdropImage?: string;
   isMainvisual?: boolean;
   isAutoPlay?: boolean;
   isControls?: boolean;
