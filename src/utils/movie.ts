@@ -14,6 +14,8 @@ export async function getMovieDetail(id: string) {
 }
 
 export function findVideo(videos: video[]) {
+  if (videos.length === 0) return '';
+
   const trailerIndex = videos.findIndex((video) => video.type === 'Trailer');
 
   if (trailerIndex === -1) {
