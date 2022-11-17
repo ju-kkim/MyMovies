@@ -3,7 +3,6 @@ import { position } from '@/common/mixins';
 import styled from 'styled-components';
 import IconButton from '../IconButton';
 import YouTube, { YouTubeProps } from 'react-youtube';
-import Image from '../Image';
 
 export default function Video({
   videoKey,
@@ -67,7 +66,7 @@ export default function Video({
   );
 
   const AfterImage = backdropImage ? (
-    <Image type="backdrop" size="big" path={backdropImage} alt={title} css={afterImage} />
+    backdropImage
   ) : (
     <Thumbnail src={`https://img.youtube.com/vi/${videoKey}/maxresdefault.jpg`} alt={title} />
   );
@@ -89,20 +88,20 @@ const YoutubeVideo = styled(YouTube)<{ isControls: boolean }>`
   ${({ isControls }) => !isControls && `pointer-events: none;`}
 `;
 
-const afterImage = `
+export const afterImageStyle = `
   ${position({ type: 'absolute', top: '50%', left: '0%' })}
   transform: translateY(-50%);
   width: 100%;
 `;
 
 const Thumbnail = styled.img`
-  ${afterImage}
+  ${afterImageStyle}
 `;
 
 type Video = {
   videoKey: string;
   title: string;
-  backdropImage?: string;
+  backdropImage?: React.ReactNode;
   isMainvisual?: boolean;
   isAutoPlay?: boolean;
   isControls?: boolean;

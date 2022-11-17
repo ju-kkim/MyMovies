@@ -1,5 +1,5 @@
 import React from 'react';
-import Video from '@/components/Video';
+import Video, { afterImageStyle } from '@/components/Video';
 import IconButton from '@/components/IconButton';
 import COLOR from '@/common/color';
 import { position, typography } from '@/common/mixins';
@@ -9,28 +9,47 @@ import Image from '@/components/Image';
 
 export default function MainVisual() {
   const { trendMovie } = useTrendMovie();
+  const { id, mainVideo, title, logo, overview } = trendMovie;
+  const detailTextStyle = typography({ size: 'medium', weight: 'bold' });
+
   const detailsButtonStyle = `
     padding: 6px 10px;
     border-radius: 5px;
     background: ${COLOR.GREY[200]};
   `;
-  const detailTextStyle = typography({ size: 'medium', weight: 'bold' });
+
+  const backdropStyle = `
+    width: 100%;
+    ${mainVideo && afterImageStyle}
+  `;
+
+  const backdropImage = trendMovie.backdrop_path && (
+    <Image
+      type="backdrop"
+      size="big"
+      path={trendMovie.backdrop_path}
+      alt={trendMovie.title}
+      css={backdropStyle}
+    />
+  );
+
+  if (!id) return <Visual />;
 
   return (
     <Visual>
-      <Video
-        videoKey={trendMovie.mainVideo}
-        isMainvisual={true}
-        title={trendMovie.title}
-        backdropImage={trendMovie.backdrop_path}
-      />
+      {mainVideo ? (
+        <Video
+          videoKey={mainVideo}
+          isMainvisual={true}
+          title={title}
+          backdropImage={backdropImage}
+        />
+      ) : (
+        backdropImage
+      )}
       <Info>
-        {trendMovie.logo ? (
-          <Image type="logo" size="big" path={trendMovie.logo} alt={trendMovie.title} />
-        ) : (
-          <Title>{trendMovie.title}</Title>
-        )}
-        <Overview>{trendMovie.overview}</Overview>
+        {logo ? <Image type="logo" size="big" path={logo} alt={title} /> : <Title>{title}</Title>}
+        <Overview>{overview}</Overview>
         <IconButton
           icon="info"
           iconSize="20px"
@@ -47,6 +66,7 @@ export default function MainVisual() {
 
 const Visual = styled.div`
   ${position({})}
+  height: 56.25vw;
 
   &::before {
     content: '';
