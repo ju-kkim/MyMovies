@@ -1,6 +1,11 @@
+import MainVisual from '@/layout/MainVisual';
 import React from 'react';
 
-// TODO: page - Home
 export default function Home() {
-  return <section>HOME</section>;
+  return (
+    <section>
+      <MainVisual />
+      {/* TODO: page - List */}
+    </section>
+  );
 }
