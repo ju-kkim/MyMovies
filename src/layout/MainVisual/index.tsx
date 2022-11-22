@@ -48,7 +48,11 @@ export default function MainVisual() {
         backdropImage
       )}
       <Info>
-        {logo ? <Image type="logo" size="big" path={logo} alt={title} /> : <Title>{title}</Title>}
+        {logo ? (
+          <Image type="logo" size="big" path={logo} alt={title} css="max-width: 80%" />
+        ) : (
+          <Title>{title}</Title>
+        )}
         <Overview>{overview}</Overview>
         <IconButton
           icon="info"
