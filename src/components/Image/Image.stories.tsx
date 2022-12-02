@@ -11,6 +11,14 @@ export default {
 
 const Template: ComponentStory<typeof Image> = (args) => <Image {...args} />;
 
+export const nullImage = Template.bind({});
+nullImage.args = {
+  type: 'poster',
+  size: 'normal',
+  path: null,
+  alt: '포스터',
+};
+
 export const Poster = Template.bind({});
 Poster.args = {
   type: 'poster',
