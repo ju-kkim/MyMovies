@@ -4,19 +4,20 @@ import React from 'react';
 import styled from 'styled-components';
 import Image from '../Image';
 
-export default function Person({ direction, info }: { direction: Direction; info: Person }) {
+export default function Person({ direction, info }: { direction: directionType; info: infoType }) {
   return (
     <Wrap direction={direction}>
       <Image type="profile" size="normal" path={info.profile_path} alt={`${info.name} 이미지`} />
       <div>
-        <Character>{info.character}</Character>
+        {info.character && <Character>{info.character}</Character>}
+        {info.job && <Character>{info.job}</Character>}
         <Name>{info.name}</Name>
       </div>
     </Wrap>
   );
 }
 
-const Wrap = styled.div<{ direction: Direction }>`
+const Wrap = styled.div<{ direction: directionType }>`
   ${({ direction }) => `
     ${flexBox({
       direction: direction,
@@ -40,9 +41,9 @@ const Name = styled.p`
   ${typography({ size: 'small', weight: 'bold' })}
 `;
 
-type Direction = 'column' | 'row';
+type directionType = 'column' | 'row';
 
-type Person = {
+type infoType = {
   adult: boolean;
   gender: 0 | 1 | 2;
   id: number;
@@ -50,9 +51,11 @@ type Person = {
   name: string;
   original_name: string;
   popularity: number;
-  profile_path: string;
-  cast_id: number;
-  character: string;
+  profile_path: string | null;
   credit_id: string;
-  order: number;
+  cast_id?: number;
+  character?: string;
+  order?: number;
+  department?: string;
+  job?: string;
 };
