@@ -4,6 +4,8 @@ import sound from '@/assets/svg/sound.svg';
 import plus from '@/assets/svg/plus.svg';
 import info from '@/assets/svg/info.svg';
 import downArrow from '@/assets/svg/downArrow.svg';
+import rightArrow from '@/assets/svg/rightArrow.svg';
+import circleStar from '@/assets/svg/circleStar.svg';
 import styled from 'styled-components';
 import { flexBox } from '@/common/mixins';
 
@@ -13,6 +15,8 @@ const iconComponents: iconComponents = {
   plus,
   downArrow,
   info,
+  rightArrow,
+  circleStar,
 };
 
 type iconComponents = {
