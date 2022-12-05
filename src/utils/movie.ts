@@ -1,7 +1,20 @@
 import { QUERY } from '@/constants/query';
 import { myFetch } from './fetch';
 
-export async function getMovieDetail(id: string) {
+export async function getMovieList({ category, page }: { category: category; page: number }) {
+  const response = await myFetch({
+    path: `movie/${category}`,
+    querys: [
+      { query: 'language', value: QUERY.language },
+      { query: 'page', value: `${page}` },
+      { query: 'region', value: QUERY.region },
+    ],
+  });
+
+  return response;
+}
+
+export async function getMovieDetail(id: number) {
   const movie = await myFetch({
     path: `movie/${id}`,
     querys: [
@@ -11,6 +24,15 @@ export async function getMovieDetail(id: string) {
   });
 
   return movie;
+}
+
+export async function getMovieCredits(id: number) {
+  const credits = await myFetch({
+    path: `movie/${id}/credits`,
+    querys: [{ query: 'language', value: QUERY.language }],
+  });
+
+  return credits;
 }
 
 export function findVideo(videos: video[]) {
@@ -31,6 +53,8 @@ export function findLogo(logos: image[]) {
 
   return logos[0].file_path;
 }
+
+export type category = 'popular' | 'now_playing' | 'upcoming' | 'top_rated';
 
 type video = {
   id: string;
