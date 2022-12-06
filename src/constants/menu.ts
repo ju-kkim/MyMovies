@@ -1,4 +1,6 @@
-const MENU = [
+import { category } from '@/utils/movie';
+
+const MENU: menu = [
   {
     text: '인기영화',
     path: 'popular',
@@ -18,3 +20,8 @@ const MENU = [
 ];
 
 export default MENU;
+
+type menu = {
+  text: string;
+  path: category;
+}[];
