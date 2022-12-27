@@ -5,18 +5,31 @@ import Header from '@/layout/Header/index';
 import Home from '@/page/Home';
 import Login from '@/page/Login';
 import NotFound from '@/page/NotFound';
+import { useRecoilValue } from 'recoil';
+import { modal, modalModeType } from './store/modal';
+import styled from 'styled-components';
+import { position } from './common/mixins';
 
 export default function App() {
+  const { mode, position } = useRecoilValue(modal);
   return (
     <CookiesProvider>
       <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Wrapper modal={mode} scrollTop={position.scrollTop}>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="login" element={<Login />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Wrapper>
       </BrowserRouter>
     </CookiesProvider>
   );
 }
+
+const Wrapper = styled.div<{ modal: modalModeType; scrollTop: number }>`
+  ${({ modal, scrollTop }) =>
+    modal === 'Detail' && position({ type: 'fixed', top: `-${scrollTop}px` })}
+  width: 100%;
+`;
