@@ -3,6 +3,8 @@ import { position } from '@/common/mixins';
 import styled from 'styled-components';
 import IconButton from '../IconButton';
 import YouTube, { YouTubeProps } from 'react-youtube';
+import { useRecoilValue } from 'recoil';
+import { modalMovie } from '@/store/modal';
 
 export default function Video({
   videoKey,
@@ -15,6 +17,7 @@ export default function Video({
   const [isMute, setIsMute] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const videoRef = useRef<YouTube | null>(null);
+  const ModalMovie = useRecoilValue(modalMovie);
 
   const volumeIconSize = isMainvisual ? '50px' : '28px';
   const volumeButonStyle = `${
@@ -29,6 +32,12 @@ export default function Video({
     const player = videoRef.current?.internalPlayer;
     isMute ? player.mute() : player.unMute();
   }, [isMute]);
+
+  useEffect(() => {
+    const player = videoRef.current?.internalPlayer;
+    if (!isMainvisual || !player) return;
+    ModalMovie ? player.pauseVideo() : player.playVideo();
+  }, [ModalMovie]);
 
   function toggleMute() {
     setIsMute(!isMute);
