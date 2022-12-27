@@ -6,33 +6,40 @@ import { Inner } from '@/common/style';
 import { flexBox, position, typography } from '@/common/mixins';
 import MENU from '@/constants/menu';
 import MovieList from '@/layout/Movie/List';
+import { useRecoilValue } from 'recoil';
+import { modal } from '@/store/modal';
+import MovieModal from '@/layout/Movie/Modal';
 
 const LIST_GAP = 20;
 const ITEM_COUNT = 5;
 
 export default function Home() {
+  const { movie } = useRecoilValue(modal);
   return (
-    <section>
-      <MainVisual />
-      <Main>
-        <Inner>
-          {MENU.map((menu) => (
-            <CategoryWrap key={menu.path}>
-              <TitleBox>
-                <Heading>{menu.text}</Heading>
-                <ViewAll to={`/${menu.path}`}>view all</ViewAll>
-              </TitleBox>
-              <MovieList
-                category={menu.path}
-                flexGap={LIST_GAP}
-                itemCount={ITEM_COUNT}
-                isWrap={false}
-              />
-            </CategoryWrap>
-          ))}
-        </Inner>
-      </Main>
-    </section>
+    <>
+      <section>
+        <MainVisual />
+        <Main>
+          <Inner>
+            {MENU.map((menu) => (
+              <CategoryWrap key={menu.path}>
+                <TitleBox>
+                  <Heading>{menu.text}</Heading>
+                  <ViewAll to={`/${menu.path}`}>view all</ViewAll>
+                </TitleBox>
+                <MovieList
+                  category={menu.path}
+                  flexGap={LIST_GAP}
+                  itemCount={ITEM_COUNT}
+                  isWrap={false}
+                />
+              </CategoryWrap>
+            ))}
+          </Inner>
+        </Main>
+      </section>
+      {movie && <MovieModal />}
+    </>
   );
 }
 

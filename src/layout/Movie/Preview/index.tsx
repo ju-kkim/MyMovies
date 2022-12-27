@@ -3,9 +3,14 @@ import Genres, { genre } from '@/components/Genres';
 import styled from 'styled-components';
 import IconButton from '@/components/IconButton';
 import { flexBox, typography } from '@/common/mixins';
+import { useSetRecoilState } from 'recoil';
+import { modalMode } from '@/store/modal';
 
-// TODO: 즐겨찾기, 상세보기 핸들러 추가
+// TODO: 즐겨찾기
 export default function Preview({ title, releaseDate, genres }: preview) {
+  const setModalMode = useSetRecoilState(modalMode);
+  const showDetail = () => setModalMode('Detail');
+
   return (
     <PreviewWrap>
       <TextBox>
@@ -17,7 +22,7 @@ export default function Preview({ title, releaseDate, genres }: preview) {
       </TextBox>
       <Flex>
         <IconButton icon="plus" iconSize="28px" clickHandler={() => {}} />
-        <IconButton icon="downArrow" iconSize="28px" clickHandler={() => {}} />
+        <IconButton icon="downArrow" iconSize="28px" clickHandler={showDetail} />
       </Flex>
     </PreviewWrap>
   );
