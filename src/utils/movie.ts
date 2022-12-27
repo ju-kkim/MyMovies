@@ -1,3 +1,4 @@
+import { GENRE } from '@/constants/genre';
 import { QUERY } from '@/constants/query';
 import { myFetch } from './fetch';
 
@@ -52,6 +53,10 @@ export function findLogo(logos: image[]) {
   if (logos.length === 0) return '';
 
   return logos[0].file_path;
+}
+
+export function findGenre(targetGenres: number[]) {
+  return GENRE.filter((g) => targetGenres.includes(g.id));
 }
 
 export type category = 'popular' | 'now_playing' | 'upcoming' | 'top_rated';
