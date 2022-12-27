@@ -25,6 +25,7 @@ const Wrap = styled.div<{ direction: directionType }>`
     })}
     gap: ${direction === 'column' ? '10px' : '20px'}; 
   `}
+  width: 100%;
 
   & img {
     width: ${({ direction }) => direction === 'row' && '70px'};
