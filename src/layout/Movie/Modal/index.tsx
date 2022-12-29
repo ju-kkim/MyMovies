@@ -65,6 +65,7 @@ export default function MovieModal() {
 
           {mode === 'Preview' && (
             <Preview
+              id={movie.id}
               title={movie.title}
               releaseDate={movie.release_date}
               genres={findGenre(movie.genre_ids)}

@@ -36,6 +36,22 @@ export async function getMovieCredits(id: number) {
   return credits;
 }
 
+export async function getAccountStates({
+  movieId,
+  sessionId,
+}: {
+  movieId: number;
+  sessionId: string;
+}) {
+  const { favorite, rated }: { favorite: boolean; rated: { rated: number } | false } =
+    await myFetch({
+      path: `movie/${movieId}/account_states`,
+      querys: [{ query: 'session_id', value: sessionId }],
+    });
+
+  return { favorite, rated };
+}
+
 export function findVideo(videos: video[]) {
   if (videos.length === 0) return '';
 
