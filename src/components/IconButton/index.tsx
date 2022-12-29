@@ -57,7 +57,7 @@ const Button = styled.button<{ text: string | undefined; buttonStyle: string }>`
   ${({ text }) => text && flexBox({})}
   gap: 5px;
   opacity: 0.7;
-  ${({ buttonStyle }) => buttonStyle && buttonStyle}
+  ${({ buttonStyle }) => buttonStyle && buttonStyle};
 
   &:not(:disabled):hover {
     opacity: 1;
