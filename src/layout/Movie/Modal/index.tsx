@@ -11,7 +11,7 @@ import COLOR from '@/common/color';
 import { modal, modalMode, modalModeType, modalMovie, modalPositionType } from '@/store/modal';
 import { DETAIL_WIDTH, PREVIEW_WIDTH } from '@/constants/constants';
 import { useMovieDetail } from '@/hook/useMovieDetail';
-import { findGenre, findVideo } from '@/utils/movie';
+import { findVideo } from '@/utils/movie';
 import IconButton from '@/components/IconButton';
 import { useClickOutside } from '@/hook/useClickOutside';
 
@@ -63,14 +63,7 @@ export default function MovieModal() {
             MainBackdrop
           )}
 
-          {mode === 'Preview' && (
-            <Preview
-              id={movie.id}
-              title={movie.title}
-              releaseDate={movie.release_date}
-              genres={findGenre(movie.genre_ids)}
-            />
-          )}
+          {mode === 'Preview' && <Preview movie={movie} />}
           {mode === 'Detail' && (
             <>
               <Detail movieId={movie.id} />

@@ -1,14 +1,18 @@
 import React from 'react';
-import Genres, { genre } from '@/components/Genres';
+import Genres from '@/components/Genres';
 import styled from 'styled-components';
 import IconButton from '@/components/IconButton';
 import FavoriteButton from '@/components/FavoriteButton';
 import { flexBox, typography } from '@/common/mixins';
 import { useSetRecoilState } from 'recoil';
 import { modalMode } from '@/store/modal';
+import { movie } from '@/hook/useMovieList';
+import { findGenre } from '@/utils/movie';
 
 // TODO: 즐겨찾기
-export default function Preview({ id, title, releaseDate, genres }: preview) {
+export default function Preview({ movie }: { movie: movie }) {
+  const { id, title, release_date, genre_ids } = movie;
+  const genres = findGenre(genre_ids);
   const setModalMode = useSetRecoilState(modalMode);
   const showDetail = () => setModalMode('Detail');
 
@@ -17,7 +21,7 @@ export default function Preview({ id, title, releaseDate, genres }: preview) {
       <TextBox>
         <Title>{title}</Title>
         <Flex>
-          <ReleaseDate>{releaseDate}</ReleaseDate>
+          <ReleaseDate>{release_date}</ReleaseDate>
           <Genres genres={genres} textSize="xSmall" />
         </Flex>
       </TextBox>
@@ -56,10 +60,3 @@ const Flex = styled.div`
 const TextBox = styled.div`
   width: calc(100% - 76px);
 `;
-
-type preview = {
-  id: number;
-  title: string;
-  releaseDate: string;
-  genres: genre[];
-};
