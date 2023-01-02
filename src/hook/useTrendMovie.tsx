@@ -1,9 +1,11 @@
 import { myFetch } from '@/utils/fetch';
 import { findLogo, findVideo, getMovieDetail } from '@/utils/movie';
 import { useEffect, useState } from 'react';
+import { movie } from './useMovieList';
 
 export function useTrendMovie() {
-  const [trendMovie, setTrendMovie] = useState<trendMovie>(initTrendMovie);
+  const [trendMovie, setTrendMovie] = useState<movie | null>(null);
+  const [trendMovieDetail, setTrendMovieDetail] = useState<trendMovie>(initTrendMovie);
 
   useEffect(() => {
     getTrendMovie();
@@ -11,8 +13,8 @@ export function useTrendMovie() {
 
   async function getTrendMovie() {
     const trendList = await myFetch({ path: `trending/movie/day` });
-    const { id } = trendList.results[0];
-    const { title, overview, backdrop_path, videos, images } = await getMovieDetail(id);
+    const movie = trendList.results[0];
+    const { id, title, overview, backdrop_path, videos, images } = await getMovieDetail(movie.id);
     const mainVideo = findVideo(videos.results);
     const logo = findLogo(images.logos);
 
@@ -25,10 +27,11 @@ export function useTrendMovie() {
       mainVideo,
     };
 
-    setTrendMovie(trendMovie);
+    setTrendMovie(movie);
+    setTrendMovieDetail(trendMovie);
   }
 
-  return { trendMovie };
+  return { trendMovie, trendMovieDetail };
 }
 
 const initTrendMovie = {

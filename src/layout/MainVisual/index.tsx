@@ -6,10 +6,14 @@ import { position, typography } from '@/common/mixins';
 import styled from 'styled-components';
 import { useTrendMovie } from '@/hook/useTrendMovie';
 import Image from '@/components/Image';
+import { useSetRecoilState } from 'recoil';
+import { modalMode, modalMovie } from '@/store/modal';
 
 export default function MainVisual() {
-  const { trendMovie } = useTrendMovie();
-  const { id, mainVideo, title, logo, overview } = trendMovie;
+  const { trendMovie, trendMovieDetail } = useTrendMovie();
+  const { id, mainVideo, title, logo, overview, backdrop_path } = trendMovieDetail;
+  const setModalMovie = useSetRecoilState(modalMovie);
+  const setModalMode = useSetRecoilState(modalMode);
   const detailTextStyle = typography({ size: 'medium', weight: 'bold' });
 
   const detailsButtonStyle = `
@@ -23,15 +27,14 @@ export default function MainVisual() {
     ${mainVideo && afterImageStyle}
   `;
 
-  const backdropImage = trendMovie.backdrop_path && (
-    <Image
-      type="backdrop"
-      size="big"
-      path={trendMovie.backdrop_path}
-      alt={trendMovie.title}
-      css={backdropStyle}
-    />
+  const backdropImage = backdrop_path && (
+    <Image type="backdrop" size="big" path={backdrop_path} alt={title} css={backdropStyle} />
   );
+
+  const showDetail = () => {
+    setModalMode('Detail');
+    setModalMovie(trendMovie);
+  };
 
   if (!id) return <Visual />;
 
@@ -60,8 +63,7 @@ export default function MainVisual() {
           text="상세보기"
           buttonStyle={detailsButtonStyle}
           textStyle={detailTextStyle}
-          // TODO: 상세보기 추가
-          clickHandler={() => {}}
+          clickHandler={showDetail}
         />
       </Info>
     </Visual>
