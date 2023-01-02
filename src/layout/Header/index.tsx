@@ -172,6 +172,14 @@ const UserMenu = styled.ul`
   ${position({ type: 'absolute', right: '0', top: 'calc(100% + 5px)' })}
   width: 100px;
   border: 1px solid ${COLOR.GREY[200]};
+  background: ${COLOR.BLACK};
+
+  &::before {
+    ${position({ type: 'absolute', bottom: 'calc(100% + 3px)', right: '0' })}
+    content: '';
+    border: 5px solid transparent;
+    border-bottom-color: ${COLOR.GREY[200]};
+  }
 
   li + li {
     border-top: 1px solid ${COLOR.GREY[200]};
