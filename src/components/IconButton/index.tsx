@@ -7,6 +7,9 @@ import downArrow from '@/assets/svg/downArrow.svg';
 import rightArrow from '@/assets/svg/rightArrow.svg';
 import circleStar from '@/assets/svg/circleStar.svg';
 import close from '@/assets/svg/close.svg';
+import leftStar from '@/assets/svg/leftStar.svg';
+import rightStar from '@/assets/svg/rightStar.svg';
+import rateReset from '@/assets/svg/rateReset.svg';
 import styled from 'styled-components';
 import { flexBox } from '@/common/mixins';
 
@@ -19,6 +22,9 @@ const iconComponents: iconComponents = {
   rightArrow,
   circleStar,
   close,
+  leftStar,
+  rightStar,
+  rateReset,
 };
 
 type iconComponents = {
