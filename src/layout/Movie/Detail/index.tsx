@@ -12,6 +12,7 @@ import Person from '@/components/Person';
 import FavoriteButton from '@/components/FavoriteButton';
 import DetailVideo from './Video';
 import DetailImage from './Image';
+import RatedButton from '@/components/RatedButton';
 
 // TODO: viewall 핸들러
 const viewAllProps = {
@@ -63,9 +64,8 @@ export default function Detail({ movieId }: { movieId: number }) {
               <StarIcon />
               <Average>{details.vote_average}</Average>
             </AverageWrap>
-            {/* TODO:  평가하기 핸들러 등록 */}
             <FavoriteButton movieId={movieId} isText={true} />
-            <IconButton icon="circleStar" iconSize="17px" text="평가하기" clickHandler={() => {}} />
+            <RatedButton movieId={movieId} />
           </ActionWrap>
           <TitleWrap>
             <SubTitle>overview</SubTitle>
