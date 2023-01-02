@@ -23,14 +23,15 @@ export default function Genres({
 
 const GenresBox = styled.div`
   ${flexBox({})}
+  flex-wrap: wrap;
 `;
 
 const Genre = styled.span<{ textSize: 'small' | 'xSmall' }>`
   ${flexBox({})}
-
+  flex-shrink: 0;
   ${({ textSize }) => typography({ size: textSize })}
 
-  & + span::before {
+  &:not(:last-child)::after {
     display: block;
     content: '';
     width: 3px;

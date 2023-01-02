@@ -18,45 +18,52 @@ export default function Preview({ movie }: { movie: movie }) {
 
   return (
     <PreviewWrap>
-      <TextBox>
+      <Flex>
         <Title>{title}</Title>
         <Flex>
-          <ReleaseDate>{release_date}</ReleaseDate>
-          <Genres genres={genres} textSize="xSmall" />
+          <FavoriteButton movieId={id} />
+          <IconButton icon="downArrow" iconSize="28px" clickHandler={showDetail} />
         </Flex>
-      </TextBox>
+      </Flex>
       <Flex>
-        <FavoriteButton movieId={id} />
-        <IconButton icon="downArrow" iconSize="28px" clickHandler={showDetail} />
+        <ReleaseDate>{release_date}</ReleaseDate>
+        <Genres genres={genres} textSize="xSmall" />
       </Flex>
     </PreviewWrap>
   );
 }
 
 const PreviewWrap = styled.div`
-  ${flexBox({ justifyContent: 'space-between', alignItems: 'flex-start' })}
+  ${flexBox({ direction: 'column', alignItems: 'stretch' })}
   gap: 10px;
   padding: 20px 20px 40px;
 `;
 
 const Title = styled.h2`
   ${typography({ size: 'large', weight: 'bold' })}
-  margin-bottom: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 100%;
+  width: calc(100% - 76px);
 `;
 
 const ReleaseDate = styled.span`
   ${typography({ size: 'xSmall' })}
+  flex-shrink: 0;
+
+  &::after {
+    content: '';
+    display: inline-block;
+    margin-left: 10px;
+    width: 1px;
+    height: 10px;
+    vertical-align: middle;
+    background: #595959;
+  }
 `;
 
 const Flex = styled.div`
   ${flexBox({})}
   gap: 10px;
-`;
-
-const TextBox = styled.div`
-  width: calc(100% - 76px);
+  flex-wrap: wrap;
 `;
