@@ -43,7 +43,7 @@ export async function getAccountStates({
   movieId: number;
   sessionId: string;
 }) {
-  const { favorite, rated }: { favorite: boolean; rated: { rated: number } | false } =
+  const { favorite, rated }: { favorite: boolean; rated: { value: number } | false } =
     await myFetch({
       path: `movie/${movieId}/account_states`,
       querys: [{ query: 'session_id', value: sessionId }],
