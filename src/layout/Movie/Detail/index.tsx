@@ -135,13 +135,16 @@ const Title = styled.h3`
 
 const Info = styled.div`
   ${flexBox({})}
+  flex-wrap: wrap;
   margin-top: 10px;
 `;
 
 const ReleaseDate = styled.span`
+  flex-shrink: 0;
   ${typography({ size: 'small' })}
 `;
 const Country = styled.span`
+  flex-shrink: 0;
   margin-left: 5px;
   ${typography({ size: 'small' })}
 
