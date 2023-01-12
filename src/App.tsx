@@ -9,9 +9,10 @@ import { useRecoilValue } from 'recoil';
 import { modal, modalModeType } from './store/modal';
 import styled from 'styled-components';
 import { position } from './common/mixins';
+import MovieModal from './layout/Movie/Modal';
 
 export default function App() {
-  const { mode, position } = useRecoilValue(modal);
+  const { movie, mode, position } = useRecoilValue(modal);
   return (
     <CookiesProvider>
       <BrowserRouter>
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="login" element={<Login />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          {movie && <MovieModal />}
         </Wrapper>
       </BrowserRouter>
     </CookiesProvider>

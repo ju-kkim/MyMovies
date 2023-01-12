@@ -21,7 +21,9 @@ const MENU: menu = [
 
 export default MENU;
 
-type menu = {
-  text: string;
+export type menu = {
+  text: categoryText;
   path: category;
 }[];
+
+export type categoryText = '인기영화' | '현재상영중' | '개봉예정' | '높은평점';
