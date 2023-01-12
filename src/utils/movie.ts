@@ -1,5 +1,7 @@
+import { SESSION_ID } from '@/constants/constants';
 import { GENRE } from '@/constants/genre';
 import { QUERY } from '@/constants/query';
+import { getCookie } from './cookie';
 import { myFetch } from './fetch';
 
 export async function getMovieList({ category, page }: { category: category; page: number }) {
@@ -36,13 +38,8 @@ export async function getMovieCredits(id: number) {
   return credits;
 }
 
-export async function getAccountStates({
-  movieId,
-  sessionId,
-}: {
-  movieId: number;
-  sessionId: string;
-}) {
+export async function getAccountFavoritesAndRated({ movieId }: { movieId: number }) {
+  const sessionId = getCookie({ name: SESSION_ID });
   const { favorite, rated }: { favorite: boolean; rated: { value: number } | false } =
     await myFetch({
       path: `movie/${movieId}/account_states`,

@@ -13,6 +13,7 @@ import FavoriteButton from '@/components/FavoriteButton';
 import DetailVideo from './Video';
 import DetailImage from './Image';
 import RatedButton from '@/components/RatedButton';
+import { accountFavoriteType, accountRatedType } from '@/hook/useAccountStates';
 
 // TODO: viewall 핸들러
 const viewAllProps = {
@@ -23,7 +24,7 @@ const viewAllProps = {
   buttonStyle: 'flex-direction:row-reverse; gap:0;',
 };
 
-export default function Detail({ movieId }: { movieId: number }) {
+export default function Detail({ movieId, accountStates }: detailPropsType) {
   const { details, credits } = useMovieDetail(movieId);
   const [showImgType, setShowImgType] = useState<'backdrop' | 'poster'>('backdrop');
 
@@ -64,8 +65,12 @@ export default function Detail({ movieId }: { movieId: number }) {
               <StarIcon />
               <Average>{details.vote_average}</Average>
             </AverageWrap>
-            <FavoriteButton movieId={movieId} isText={true} />
-            <RatedButton movieId={movieId} />
+            <FavoriteButton
+              movieId={movieId}
+              isText={true}
+              accountFavorite={accountStates.favorite}
+            />
+            <RatedButton movieId={movieId} accountRated={accountStates.rated} />
           </ActionWrap>
           <TitleWrap>
             <SubTitle>overview</SubTitle>
@@ -219,3 +224,11 @@ const Tab = styled.button`
     color: ${COLOR.WHITE};
   }
 `;
+
+type detailPropsType = {
+  movieId: number;
+  accountStates: {
+    favorite: accountFavoriteType;
+    rated: accountRatedType;
+  };
+};

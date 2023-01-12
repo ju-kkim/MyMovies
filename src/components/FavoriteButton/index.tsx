@@ -1,16 +1,17 @@
+import COLOR from '@/common/color';
+import { accountFavoriteType } from '@/hook/useAccountStates';
 import { useFavorite } from '@/hook/useFavorite';
 import React from 'react';
 import IconButton from '../IconButton';
 
 export default function FavoriteButton({
   movieId,
+  accountFavorite,
   isText = false,
-}: {
-  movieId: number;
-  isText?: boolean;
-}) {
-  const { postFavorite, isFavoriteState, favoriteIconStyle } = useFavorite({ movieId });
-  const toggleFavorite = () => postFavorite({ isFavorite: !isFavoriteState });
+}: favoriteButtonPropsType) {
+  const { postFavorite } = useFavorite();
+  const toggleFavorite = () => postFavorite({ movieId, accountFavorite });
+  const favoriteIconStyle = accountFavorite.state ? `color: ${COLOR.YELLOW}; opacity:1;` : '';
 
   return (
     <IconButton
@@ -22,3 +23,9 @@ export default function FavoriteButton({
     />
   );
 }
+
+type favoriteButtonPropsType = {
+  movieId: number;
+  accountFavorite: accountFavoriteType;
+  isText?: boolean;
+};

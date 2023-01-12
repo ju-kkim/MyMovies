@@ -1,41 +1,26 @@
-import COLOR from '@/common/color';
 import { sessionIdStore } from '@/store/sessionId';
 import { myFetch } from '@/utils/fetch';
-import { getAccountStates } from '@/utils/movie';
-import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-export function useRate({ movieId }: { movieId: number }) {
+export function useRate() {
   const sessionId = useRecoilValue(sessionIdStore);
-  const [ratedValue, setRatedValue] = useState(0);
-  const rateIconStyle = ratedValue ? `color: ${COLOR.YELLOW}; opacity:1;` : '';
 
-  useEffect(() => {
-    if (!sessionId) return;
-    (async () => {
-      const { rated } = await getAccountStates({ movieId, sessionId });
-      const value = rated ? rated.value : 0;
-      setRatedValue(value);
-    })();
-  }, []);
-
-  async function postRate(value: number) {
+  async function postRate({ movieId, rateValue, setAccountRated }: postRatePram) {
     if (!sessionId) return;
     try {
       await myFetch({
         path: `movie/${movieId}/rating`,
         method: 'POST',
         querys: [{ query: 'session_id', value: sessionId }],
-        requestBody: { value },
+        requestBody: { value: rateValue },
       });
-      console.log(value);
-      setRatedValue(value);
+      setAccountRated(rateValue);
     } catch (e) {
       console.error(e);
     }
   }
 
-  async function deleteRate() {
+  async function deleteRate({ movieId, setAccountRated }: deleteRatePram) {
     if (!sessionId) return;
     try {
       await myFetch({
@@ -43,11 +28,20 @@ export function useRate({ movieId }: { movieId: number }) {
         method: 'DELETE',
         querys: [{ query: 'session_id', value: sessionId }],
       });
-      setRatedValue(0);
+      setAccountRated(0);
     } catch (e) {
       console.error(e);
     }
   }
 
-  return { postRate, deleteRate, ratedValue, rateIconStyle };
+  return { postRate, deleteRate };
 }
+
+type deleteRatePram = {
+  movieId: number;
+  setAccountRated: React.Dispatch<React.SetStateAction<number>>;
+};
+
+type postRatePram = deleteRatePram & {
+  rateValue: number;
+};

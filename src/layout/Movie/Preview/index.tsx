@@ -9,8 +9,16 @@ import { modalMode } from '@/store/modal';
 import { movie } from '@/hook/useMovieList';
 import { findGenre } from '@/utils/movie';
 
-// TODO: 즐겨찾기
-export default function Preview({ movie }: { movie: movie }) {
+export default function Preview({
+  movie,
+  accountFavorite,
+}: {
+  movie: movie;
+  accountFavorite: {
+    state: boolean;
+    set: React.Dispatch<React.SetStateAction<boolean>>;
+  };
+}) {
   const { id, title, release_date, genre_ids } = movie;
   const genres = findGenre(genre_ids);
   const setModalMode = useSetRecoilState(modalMode);
@@ -21,7 +29,7 @@ export default function Preview({ movie }: { movie: movie }) {
       <Flex>
         <Title>{title}</Title>
         <Flex>
-          <FavoriteButton movieId={id} />
+          <FavoriteButton movieId={id} accountFavorite={accountFavorite} />
           <IconButton icon="downArrow" iconSize="28px" clickHandler={showDetail} />
         </Flex>
       </Flex>

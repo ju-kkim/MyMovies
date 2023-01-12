@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import IconButton from '../IconButton';
-
 import styled from 'styled-components';
 import { position } from '@/common/mixins';
 import StarRate from './StarRate';
@@ -8,15 +7,16 @@ import { useClickOutside } from '@/hook/useClickOutside';
 import { userStore } from '@/store/user';
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { useRate } from '@/hook/useRate';
+import COLOR from '@/common/color';
+import { accountRatedType } from '@/hook/useAccountStates';
 
-export default function RatedButton({ movieId }: { movieId: number }) {
+export default function RatedButton({ movieId, accountRated }: rateButtonPropsType) {
   const user = useRecoilValue(userStore);
-  const accountRate = useRate({ movieId });
-  const { rateIconStyle } = accountRate;
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
   const starWrapper = useRef(null);
+  const rateIconStyle = accountRated.state ? `color: ${COLOR.YELLOW}; opacity:1;` : '';
+
   useClickOutside({ ref: starWrapper, callback: () => setIsActive(false) });
 
   const toggleRatedStar = () => {
@@ -33,7 +33,7 @@ export default function RatedButton({ movieId }: { movieId: number }) {
         buttonStyle={rateIconStyle}
         clickHandler={toggleRatedStar}
       />
-      {isActive && <StarRate accountRate={accountRate} />}
+      {isActive && <StarRate movieId={movieId} accountRated={accountRated} />}
     </RatedContainer>
   );
 }
@@ -41,3 +41,8 @@ export default function RatedButton({ movieId }: { movieId: number }) {
 const RatedContainer = styled.div`
   ${position({})}
 `;
+
+type rateButtonPropsType = {
+  movieId: number;
+  accountRated: accountRatedType;
+};

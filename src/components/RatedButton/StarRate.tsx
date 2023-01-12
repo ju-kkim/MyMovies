@@ -3,44 +3,60 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { flexBox, position } from '@/common/mixins';
 import IconButton from '../IconButton';
+import { useRate } from '@/hook/useRate';
+import { accountRatedType } from '@/hook/useAccountStates';
 
-export default function StarRate({ accountRate }: { accountRate: accountRateType }) {
+export default function StarRate({ movieId, accountRated }: starRatePropsType) {
   const [hoverValue, setHoverValue] = useState(0);
+  const { deleteRate } = useRate();
 
   const starProps = {
-    rate: { hoverValue, setHoverValue },
-    accountRate: accountRate,
+    movieId,
+    hoverRate: { hoverValue, setHoverValue },
+    accountRated: accountRated,
   };
 
   return (
     <StarWrap>
-      <IconButton icon="rateReset" iconSize="15px" clickHandler={() => accountRate.deleteRate()} />
+      <IconButton
+        icon="rateReset"
+        iconSize="15px"
+        clickHandler={() => deleteRate({ movieId, setAccountRated: accountRated.set })}
+      />
       <StarBox className={`${hoverValue && 'hover'}`} onMouseLeave={() => setHoverValue(0)}>
-        <Star id={1} direction="left" {...starProps} />
-        <Star id={2} direction="right" {...starProps} />
-        <Star id={3} direction="left" {...starProps} />
-        <Star id={4} direction="right" {...starProps} />
-        <Star id={5} direction="left" {...starProps} />
-        <Star id={6} direction="right" {...starProps} />
-        <Star id={7} direction="left" {...starProps} />
-        <Star id={8} direction="right" {...starProps} />
-        <Star id={9} direction="left" {...starProps} />
-        <Star id={10} direction="right" {...starProps} />
+        <Star dataStarId={1} direction="left" {...starProps} />
+        <Star dataStarId={2} direction="right" {...starProps} />
+        <Star dataStarId={3} direction="left" {...starProps} />
+        <Star dataStarId={4} direction="right" {...starProps} />
+        <Star dataStarId={5} direction="left" {...starProps} />
+        <Star dataStarId={6} direction="right" {...starProps} />
+        <Star dataStarId={7} direction="left" {...starProps} />
+        <Star dataStarId={8} direction="right" {...starProps} />
+        <Star dataStarId={9} direction="left" {...starProps} />
+        <Star dataStarId={10} direction="right" {...starProps} />
       </StarBox>
     </StarWrap>
   );
 }
 
-function Star({ id, direction, rate, accountRate }: starPropsType) {
-  const { postRate, ratedValue } = accountRate;
-  const { hoverValue, setHoverValue } = rate;
+function Star({ movieId, dataStarId, direction, hoverRate, accountRated }: starPropsType) {
+  const { hoverValue, setHoverValue } = hoverRate;
+  const { postRate } = useRate();
 
   return (
     <StarBtn
-      className={`${hoverValue >= id && 'on'} ${ratedValue >= id && 'rated'} `}
-      onMouseEnter={() => setHoverValue(id)}
+      className={`${hoverValue >= dataStarId && 'on'} ${
+        accountRated.state >= dataStarId && 'rated'
+      } `}
+      onMouseEnter={() => setHoverValue(dataStarId)}
     >
-      <IconButton icon={`${direction}Star`} iconSize="10px" clickHandler={() => postRate(id)} />
+      <IconButton
+        icon={`${direction}Star`}
+        iconSize="10px"
+        clickHandler={() =>
+          postRate({ movieId: movieId, rateValue: hoverValue, setAccountRated: accountRated.set })
+        }
+      />
     </StarBtn>
   );
 }
@@ -74,19 +90,18 @@ const StarBtn = styled.div`
   }
 `;
 
-type accountRateType = {
-  postRate: (value: number) => Promise<void>;
-  deleteRate: () => Promise<void>;
-  ratedValue: number;
-  rateIconStyle: string;
+type starRatePropsType = {
+  movieId: number;
+  accountRated: accountRatedType;
 };
 
 type starPropsType = {
-  id: number;
+  dataStarId: number;
+  movieId: number;
   direction: 'left' | 'right';
-  rate: {
+  hoverRate: {
     hoverValue: number;
     setHoverValue: React.Dispatch<React.SetStateAction<number>>;
   };
-  accountRate: accountRateType;
+  accountRated: accountRatedType;
 };

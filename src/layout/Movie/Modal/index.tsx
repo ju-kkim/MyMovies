@@ -14,6 +14,7 @@ import { useMovieDetail } from '@/hook/useMovieDetail';
 import { findVideo } from '@/utils/movie';
 import IconButton from '@/components/IconButton';
 import { useClickOutside } from '@/hook/useClickOutside';
+import useAccountStates from '@/hook/useAccountStates';
 
 export default function MovieModal() {
   const { mode, movie, position: modalPosition } = useRecoilValue(modal);
@@ -23,7 +24,10 @@ export default function MovieModal() {
   useClickOutside({ ref: ModalContents, callback: resetModal });
 
   if (!movie) return null;
+  const accountStates = useAccountStates({ movieId: movie.id });
+
   const { details } = useMovieDetail(movie.id);
+
   if (!details) return null;
   const MainVideo = findVideo(details.videos.results);
   const MainBackdrop = (
@@ -63,10 +67,10 @@ export default function MovieModal() {
             MainBackdrop
           )}
 
-          {mode === 'Preview' && <Preview movie={movie} />}
+          {mode === 'Preview' && <Preview movie={movie} accountFavorite={accountStates.favorite} />}
           {mode === 'Detail' && (
             <>
-              <Detail movieId={movie.id} />
+              <Detail movieId={movie.id} accountStates={accountStates} />
               <IconButton
                 icon="close"
                 iconSize="36px"

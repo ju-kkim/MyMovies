@@ -2,27 +2,16 @@ import { userStore } from '@/store/user';
 import { sessionIdStore } from '@/store/sessionId';
 import { useRecoilValue } from 'recoil';
 import { myFetch } from '@/utils/fetch';
-import { useEffect, useState } from 'react';
-import { getAccountStates } from '@/utils/movie';
-import COLOR from '@/common/color';
-import { useNavigate } from 'react-router-dom';
 
-export function useFavorite({ movieId }: { movieId: number }) {
+import { useNavigate } from 'react-router-dom';
+import { accountFavoriteType } from './useAccountStates';
+
+export function useFavorite() {
   const navigate = useNavigate();
   const user = useRecoilValue(userStore);
   const sessionId = useRecoilValue(sessionIdStore);
-  const [isFavoriteState, setIsFavoriteState] = useState(false);
-  const favoriteIconStyle = isFavoriteState ? `color: ${COLOR.YELLOW}; opacity:1;` : '';
 
-  useEffect(() => {
-    if (!sessionId) return;
-    (async () => {
-      const { favorite } = await getAccountStates({ movieId, sessionId });
-      setIsFavoriteState(favorite);
-    })();
-  }, []);
-
-  async function postFavorite({ isFavorite }: { isFavorite: boolean }) {
+  async function postFavorite({ movieId, accountFavorite }: postFavoriteParm) {
     if (!sessionId) return navigate('/login');
 
     try {
@@ -33,14 +22,19 @@ export function useFavorite({ movieId }: { movieId: number }) {
         requestBody: {
           media_type: 'movie',
           media_id: movieId,
-          favorite: isFavorite,
+          favorite: !accountFavorite.state,
         },
       });
-      setIsFavoriteState(isFavorite);
+      accountFavorite.set(!accountFavorite.state);
     } catch (e) {
       console.error(e);
     }
   }
 
-  return { postFavorite, isFavoriteState, favoriteIconStyle };
+  return { postFavorite };
 }
+
+type postFavoriteParm = {
+  movieId: number;
+  accountFavorite: accountFavoriteType;
+};
