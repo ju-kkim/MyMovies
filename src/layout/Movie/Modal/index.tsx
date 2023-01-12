@@ -44,7 +44,6 @@ export default function MovieModal() {
   );
 
   function resetModal() {
-    window.scrollTo(0, modalPosition.scrollTop);
     resetModalMovie();
     resetModalMode();
   }
