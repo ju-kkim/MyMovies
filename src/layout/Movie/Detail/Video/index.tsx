@@ -81,6 +81,8 @@ const YouTubeVideo = styled(YouTube)`
 const VideoItem = styled.button`
   display: block;
   ${position({})}
+  width: 100%;
+  text-align: left;
 
   &:disabled {
     cursor: default;
@@ -99,6 +101,10 @@ const VideoItem = styled.button`
 
   &:not(:disabled):hover::before {
     border: 2px solid ${COLOR.GREY[100]};
+  }
+
+  & img {
+    width: 100%;
   }
 `;
 
