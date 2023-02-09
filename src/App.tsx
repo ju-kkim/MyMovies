@@ -9,6 +9,9 @@ import { useRecoilValue } from 'recoil';
 import { modal, modalModeType } from './store/modal';
 import styled from 'styled-components';
 import { position } from './common/mixins';
+import Mypage from './page/Mypage';
+import MyFavorite from './page/Mypage/MyFavorite';
+import MyRated from './page/Mypage/MyRated';
 import MovieModal from './layout/Movie/Modal';
 
 export default function App() {
@@ -22,6 +25,10 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="mypage" element={<Mypage />}>
+              <Route path="favorite" element={<MyFavorite />} />
+              <Route path="rated" element={<MyRated />} />
+            </Route>
           </Routes>
           {movie && <MovieModal />}
         </Wrapper>

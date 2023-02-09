@@ -73,10 +73,13 @@ export default function Header() {
                 {userContents.username}님
               </UserId>
               {isShowUserMenu && (
-                <UserMenu>
+                <UserMenu
+                  onClick={() => {
+                    setIsShowUserMenu(false);
+                  }}
+                >
                   <li>
-                    {/* //TODO 마이페이지 열결 */}
-                    <Link to="/">MyPage</Link>
+                    <Link to="mypage/favorite">MyPage</Link>
                   </li>
                   <li>
                     <button type="button" onClick={onLogOut}>
