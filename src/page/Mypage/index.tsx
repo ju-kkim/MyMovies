@@ -3,15 +3,17 @@ import { flexBox, typography } from '@/common/mixins';
 import Image from '@/components/Image';
 import { userStore } from '@/store/user';
 import React, { useEffect } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import styled from 'styled-components';
 
 export default function Mypage() {
+  const navigate = useNavigate();
   const user = useRecoilValueLoadable(userStore);
 
   useEffect(() => {
     if (user.state !== 'hasValue') return;
+    if (!user.contents.isLogin) return navigate('/login');
   }, [user]);
 
   return (
@@ -42,9 +44,7 @@ export default function Mypage() {
           </li>
         </ul>
       </Snb>
-      <Main>
-        <Outlet />
-      </Main>
+      <Main>{user.contents.id && <Outlet />}</Main>
     </Wrapper>
   );
 }
