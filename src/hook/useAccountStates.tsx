@@ -1,3 +1,5 @@
+import { SESSION_ID } from '@/constants/constants';
+import { getCookie } from '@/utils/cookie';
 import { getAccountFavoritesAndRated } from '@/utils/movie';
 import { useEffect, useState } from 'react';
 
@@ -12,6 +14,8 @@ export default function useAccountStates({ movieId }: { movieId: number }) {
   }, []);
 
   async function getAccountStates({ movieId }: { movieId: number }) {
+    const sessionId = getCookie({ name: SESSION_ID });
+    if (!sessionId) return;
     const { favorite, rated } = await getAccountFavoritesAndRated({ movieId });
     const ratedValue = rated ? rated.value : 0;
     setFavorite(favorite);
