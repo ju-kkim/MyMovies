@@ -14,9 +14,9 @@ export default function SearchFrom() {
   return (
     <SearchWrap ref={SearchWrapper}>
       {isSearchMode ? (
-        <FormWrap>
-          <SearchBtn onClick={(e) => {}} /> {/* //TODO: 검색기능 */}
-          <input type="text" placeholder="검색어를 입력해주세요" />
+        <FormWrap action="search">
+          <SearchBtn />
+          <input type="text" name="movie" placeholder="검색어를 입력해주세요" />
         </FormWrap>
       ) : (
         <SearchBtn
