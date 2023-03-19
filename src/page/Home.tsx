@@ -1,5 +1,5 @@
 import MainVisual from '@/layout/MainVisual';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Inner } from '@/common/style';
@@ -7,16 +7,35 @@ import { flexBox, position, typography } from '@/common/mixins';
 import { categoryText } from '@/constants/menu';
 import MovieList from '@/layout/Movie/List';
 import { category } from '@/utils/movie';
-import { useMovieList } from '@/hook/useMovieList';
+import { useMovieList, movieList } from '@/hook/useMovieList';
 
 const LIST_GAP = 20;
 const ITEM_COUNT = 5;
+const MOVIE_PAGE = 1;
 
 export default function Home() {
-  const { list: popularMovie } = useMovieList('popular');
-  const { list: nowPlayingMovie } = useMovieList('now_playing');
-  const { list: upcomingMovie } = useMovieList('upcoming');
-  const { list: topRatedMovie } = useMovieList('top_rated');
+  const [popularMovie, setPopularMovie] = useState<movieList>([]);
+  const [nowPlayingMovie, setNowPlayingMovie] = useState<movieList>([]);
+  const [upcomingMovie, setUpcomingMovie] = useState<movieList>([]);
+  const [topRatedMovie, setTopRatedMovie] = useState<movieList>([]);
+
+  const { getList } = useMovieList();
+
+  useEffect(() => {
+    getCategoryList();
+  }, []);
+
+  async function getCategoryList() {
+    const { movies: popularMovie } = await getList('popular', MOVIE_PAGE);
+    const { movies: nowPlayingMovie } = await getList('now_playing', MOVIE_PAGE);
+    const { movies: upcomingMovie } = await getList('upcoming', MOVIE_PAGE);
+    const { movies: topRatedMovie } = await getList('top_rated', MOVIE_PAGE);
+
+    setPopularMovie(popularMovie);
+    setNowPlayingMovie(nowPlayingMovie);
+    setUpcomingMovie(upcomingMovie);
+    setTopRatedMovie(topRatedMovie);
+  }
 
   const categoryMovieListProps = {
     flexGap: LIST_GAP,
@@ -57,7 +76,7 @@ function CategoryTitle({ category }: { category: { text: categoryText; path: cat
   return (
     <TitleBox>
       <Heading>{category.text}</Heading>
-      <ViewAll to={`/${category.path}`}>view all</ViewAll>
+      <ViewAll to={`/movie/${category.path}`}>view all</ViewAll>
     </TitleBox>
   );
 }
