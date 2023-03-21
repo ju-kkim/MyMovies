@@ -13,6 +13,8 @@ import Mypage from './page/Mypage';
 import MyFavorite from './page/Mypage/MyFavorite';
 import MyRated from './page/Mypage/MyRated';
 import MovieModal from './layout/Movie/Modal';
+import Search from './page/Search';
+import SubList from './page/SubList';
 
 export default function App() {
   const { movie, mode, position } = useRecoilValue(modal);
@@ -23,6 +25,8 @@ export default function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/movie/:category" element={<SubList />} />
+            <Route path="/search" element={<Search />} />
             <Route path="login" element={<Login />} />
             <Route path="*" element={<NotFound />} />
             <Route path="mypage" element={<Mypage />}>
