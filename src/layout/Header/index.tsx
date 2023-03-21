@@ -60,7 +60,7 @@ export default function Header() {
           <GNB>
             {MENU.map((menu) => (
               <li key={menu.path}>
-                <Menu to={menu.path}>{menu.text}</Menu>
+                <Menu to={`/movie/${menu.path}`}>{menu.text}</Menu>
               </li>
             ))}
           </GNB>
