@@ -6,14 +6,15 @@ import { position, typography } from '@/common/mixins';
 import styled from 'styled-components';
 import { useTrendMovie } from '@/hook/useTrendMovie';
 import Image from '@/components/Image';
-import { useSetRecoilState } from 'recoil';
-import { modalMode, modalMovie } from '@/store/modal';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
+import { modalMode, modalMovie, modalPosition } from '@/store/modal';
 
 export default function MainVisual() {
   const { trendMovie, trendMovieDetail } = useTrendMovie();
   const { id, mainVideo, title, logo, overview, backdrop_path } = trendMovieDetail;
   const setModalMovie = useSetRecoilState(modalMovie);
   const setModalMode = useSetRecoilState(modalMode);
+  const resetModalPosition = useResetRecoilState(modalPosition);
   const detailTextStyle = typography({ size: 'medium', weight: 'bold' });
 
   const detailsButtonStyle = `
@@ -32,6 +33,7 @@ export default function MainVisual() {
   );
 
   const showDetail = () => {
+    resetModalPosition();
     setModalMode('Detail');
     setModalMovie(trendMovie);
   };
