@@ -4,17 +4,23 @@ import React, { useRef, useState } from 'react';
 import { useClickOutside } from '@/hook/useClickOutside';
 import styled, { keyframes } from 'styled-components';
 import SearchBtn from './SearchBtn';
+import { useNavigate } from 'react-router-dom';
 
 export default function SearchFrom() {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const SearchWrapper = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useClickOutside({ ref: SearchWrapper, callback: () => setIsSearchMode(false) });
+
+  function onSearch() {
+    navigate('/search');
+  }
 
   return (
     <SearchWrap ref={SearchWrapper}>
       {isSearchMode ? (
-        <FormWrap action="search">
+        <FormWrap onSubmit={onSearch}>
           <SearchBtn />
           <input type="text" name="movie" placeholder="검색어를 입력해주세요" />
         </FormWrap>
