@@ -79,7 +79,7 @@ export default function Header() {
                   }}
                 >
                   <li>
-                    <Link to="mypage/favorite">MyPage</Link>
+                    <Link to="/mypage/favorite">MyPage</Link>
                   </li>
                   <li>
                     <button type="button" onClick={onLogOut}>
