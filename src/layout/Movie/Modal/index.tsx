@@ -21,7 +21,7 @@ export default function MovieModal() {
   const resetModalMovie = useResetRecoilState(modalMovie);
   const resetModalMode = useResetRecoilState(modalMode);
   const ModalContents = useRef<HTMLDivElement>(null);
-  useClickOutside({ ref: ModalContents, callback: resetModal });
+  useClickOutside({ ref: ModalContents, callback: resetDetailModal });
 
   if (!movie) return null;
   const accountStates = useAccountStates({ movieId: movie.id });
@@ -46,6 +46,11 @@ export default function MovieModal() {
   function resetModal() {
     resetModalMovie();
     resetModalMode();
+  }
+
+  function resetDetailModal() {
+    window.scrollTo({ top: modalPosition.scrollTop });
+    resetModal();
   }
 
   return (
@@ -73,7 +78,7 @@ export default function MovieModal() {
               <IconButton
                 icon="close"
                 iconSize="36px"
-                clickHandler={resetModal}
+                clickHandler={resetDetailModal}
                 buttonStyle={CloseBtn}
               />
             </>
