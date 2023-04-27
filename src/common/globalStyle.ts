@@ -1,11 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 import COLOR from './color';
-import FONTFACE from '@/assets/font';
 import { typography } from './mixins';
 
 const GlobalStyle = createGlobalStyle`
-  ${FONTFACE}
-
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
   a, abbr, acronym, address, big, cite, code,
